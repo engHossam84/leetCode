@@ -81,7 +81,7 @@ public:
 		long long r = 0;
 		long long t = x;
 		t = t > 0 ? t : -t;
-			for (; t; t /= 10)
+			for (; t > 0 ; t /= 10)
 				r = r * 10 + t % 10;
 		bool sign = x > 0 ? false : true;
 		if (r > 2147483647 || (sign && r > 2147483648)) {
@@ -131,8 +131,5 @@ void main()
 	cout << Solution::reverse(123456789) << endl;
 	cout << Solution::reverse(1534236469) << endl;
 	cout << Solution::reverse(2147483647) << endl;
-	
-	
-	
 
 }
