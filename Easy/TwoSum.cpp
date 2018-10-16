@@ -63,6 +63,20 @@ public:
 	}
 };
 
+vector<int> twoSum3(vector<int>& nums, int target) {
+        unordered_map<int, int> map;
+        vector<int> output;
+        for (int i = 0; i < nums.size(); i++) {
+            int complement = target - nums[i];
+            if (map.find(complement) != map.end()) {
+                output.push_back(map[complement]);
+                output.push_back(i);
+                return output;
+            }
+            map[nums[i]] = i; 
+        }
+    }
+
 
 void main()
 {
