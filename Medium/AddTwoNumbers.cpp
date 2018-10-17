@@ -20,66 +20,122 @@ struct ListNode {
 	
 };
 
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
-	static ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-		ListNode * result;
-		ListNode * head;
-		ListNode * newNode;
-		int sum = 0, carry = 0;
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int extraOne = 0;
+        ListNode* num1 = l1;
+        ListNode* num2 = l2;
+        ListNode* result = NULL;
+        ListNode* current = NULL;
+        ListNode* tmp = NULL;
+        int sum = 0;
+        if(l1 && l2 == NULL)
+        {
+            return l1;
+        }
+        else if(l2 && l1 == NULL)
+        {
+            return l2;
+        }
+        else 
+        {
+            while(num1 != NULL && num2!= NULL)
+            {
+                sum = num1->val + num2-> val + extraOne;
+                extraOne = 0;
+                num1 = num1->next;
+                num2 = num2->next;
+                if(result == NULL)
+                {
+                    if(sum < 10)
+                    {
+                        result = new ListNode(sum);
+                        current = result ;
+                    }
+                    else
+                    {
+                        result = new ListNode(sum%10);
+                        extraOne = 1;
+                        current = result ;
+                    }
 
-		sum = l1->val + l2->val + carry;
-		carry = sum / 10;
-		newNode = new ListNode(sum % 10);
-		result = newNode;
-		head = newNode;
-		l1 = l1->next; 
-		l2 = l2->next;
-		while (l1 != nullptr || l2 != nullptr)
-		{
-			if (l1 && l2)
-			{
-				sum = l1->val + l2->val + carry;
-				carry = sum / 10;
-				newNode = new ListNode(sum % 10); 
-				result->next = newNode;
-				result = result->next;
-				l1 = l1->next;
-				l2 = l2->next;
-			}
-			else if (l1 != nullptr && l2 == nullptr)
-			{
-				sum = l1->val + carry;
-				carry = sum / 10;
-				newNode = new ListNode(sum % 10);
-				result->next = newNode;
-				result = result->next;
-				l1 = l1->next;
-			}
-			else if (l1 == nullptr && l2 != nullptr)
-			{
-				sum = l2->val + carry;
-				carry = sum / 10;
-				newNode = new ListNode(sum % 10);
-				result->next = newNode;
-				result = result->next;
-				l2 = l2->next;
-			}
+                }
+                else
+                {
+                    if(sum < 10)
+                    {
+                        tmp = new ListNode(sum);
+                        current->next = tmp ;
+                        current = tmp;
+                    }
+                    else
+                    {
+                        tmp = new ListNode(sum%10);
+                        extraOne = 1;
+                        current->next = tmp ;
+                        current = tmp;
+                    }
+                }
+            }
+            while(num1 != NULL)
+            {
+                sum = num1->val + extraOne;
+                extraOne = 0;
+                num1 = num1->next;
+                if(sum < 10)
+                {
+                    tmp = new ListNode(sum);
+                    current->next = tmp ;
+                    current = tmp;
+                }
+                else
+                {
+                    tmp = new ListNode(sum%10);
+                    extraOne = 1;
+                    current->next = tmp ;
+                    current = tmp;
+                }
+            }
 
-		}
-		if (carry == 1)
-		{
-			newNode = new ListNode(carry);
-			result->next = newNode;
-			result = result->next;
-		}
-
-		return head;
-	}
-
+             while(num2 != NULL)
+            {
+                sum = num2->val + extraOne;
+                extraOne = 0;
+                num2 = num2->next;
+                if(sum < 10)
+                {
+                    tmp = new ListNode(sum);
+                    current->next = tmp ;
+                    current = tmp;
+                }
+                else
+                {
+                    tmp = new ListNode(sum%10);
+                    extraOne = 1;
+                    current->next = tmp ;
+                    current = tmp;
+                }
+            }
+            if(extraOne == 1)
+            {
+                tmp = new ListNode(1);
+                current->next = tmp ;
+                current = tmp;
+            }
+            return result;
+        }
+        
+    }
 };
-
 void print(ListNode* listNode)
 {
 	ListNode * currentNode = listNode;
