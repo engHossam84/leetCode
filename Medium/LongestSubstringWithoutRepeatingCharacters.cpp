@@ -52,7 +52,7 @@ public:
 		return max((int)tmpStr.size(), longestSubstring);
 	}
 
-	static int lengthOfLongestSubstring3(string s) {  //model answer
+	static int lengthOfLongestSubstring3(string s) {  //model answer, execution = 16 ms
 		const int ASCII_MAX = 255;
 		int last[ASCII_MAX]; 
 		int start = 0; 
@@ -67,6 +67,60 @@ public:
 		}
 			return max((int)s.size() - start, max_len); 
 	}
+	
+	//new answer by me, execution = 20ms
+	 int lengthOfLongestSubstring(string s) {
+        queue<char> charQueue;
+        int count = 0;
+        int maxCount = 0;
+        int charSet[128] = {0};
+        
+        if(s.length() > 1)
+        {
+        for(int i = 0 ; i < s.length() ; i ++)
+        {
+            if(charQueue.empty())
+            {
+               charQueue.push(s.at(i)) ;
+               count++;
+               charSet[s.at(i)]++;
+            }
+            else
+            {
+                if(charSet[s.at(i)] == 0)
+                {
+                    //cout << "Insert1 " << s.at(i) << endl;
+                    charQueue.push(s.at(i)) ;
+                    count++;
+                    charSet[s.at(i)]++;
+                    if(count > maxCount)
+                        maxCount = count;
+                }
+                else
+                {
+                    char tmp = charQueue.front();
+                    //cout << "tmp = " << tmp <<endl;
+                    if(count > maxCount)
+                        maxCount = count;
+                    while(tmp != s.at(i))
+                    {    
+                        charQueue.pop();
+                        charSet[tmp]--;
+                        count--;
+                        tmp = charQueue.front();
+                    }
+                    charQueue.pop();
+                    //cout << "Insert2 " << s.at(i) << endl;
+                    //cout << "count = " << count <<endl;
+                    charQueue.push(s.at(i)) ;
+                }
+            }
+        }
+        }
+        else
+           maxCount = s.length(); 
+        return maxCount;
+    }
 
 };
 
