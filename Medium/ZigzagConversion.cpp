@@ -76,6 +76,65 @@ public:
 			return result;
 		}
 	}
+
+string convert3(string s, int numRows) {
+        unordered_map<int,vector<char>> zigzagMap;
+        int first =  2 * numRows - 4 ;
+        int second = 2;
+        bool firstUsed = false;
+        string output="";
+        int index;
+        if(s.length() <= numRows || numRows == 1)
+            return s;
+        else
+        {
+            for(int i = 0 ; i < numRows ; i ++ )
+            {
+                if(i == 0 || i == numRows - 1)
+                {
+                    index = i;
+                    while(index < s.length())
+                    {
+                        zigzagMap[i].push_back(s.at(index));
+                        index += (numRows + (numRows - 2));
+                    }
+                }
+                else
+                {
+                    index = i;
+                    while(index < s.length())
+                    {
+                        zigzagMap[i].push_back(s.at(index));
+                        if(!firstUsed)
+                        {
+                           index += first; 
+                           firstUsed = true;
+                        }
+                        else
+                        {
+                            index += second;
+                            firstUsed = false;
+                        }
+                    }
+                    first -= 2;
+                    second += 2;
+                    firstUsed = false;
+                }
+            }
+
+             for(int i = 0 ; i < numRows ; i ++ )
+             {
+                 vector<char> got = zigzagMap[i];
+                 for(int j = 0 ; j < got.size() ; j ++)
+                 {
+                     //cout << got[j] ;
+                     output+=got[j];
+                 }
+             }
+            return output;
+        }
+        
+    }
 };
 
 
