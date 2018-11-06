@@ -28,6 +28,44 @@ using namespace std;
 
 class Solution {
 public:
+	//run in 16 ms
+	int reverse3(int x) { 
+		bool negativeNum = false;
+		if( x >= INT_MAX || x <= INT_MIN)
+		    return 0;
+		int length = log10(abs(x)) + 1;
+		long tmp = 0;
+		if(length <= 1)
+		    return x;
+		else if(x < 0)
+		{
+		    negativeNum = true;
+		    tmp = abs(x);
+		}else
+		{
+		    tmp = x;
+		}
+
+
+		int output = 0;
+		int digit;
+		for(int i = length - 1 ; i >= 0 ; i --)
+		{
+		    digit = tmp % 10;
+		    if(output < (INT_MAX - (digit * pow(10,i))))
+		    {
+			output += digit * pow(10,i);
+			tmp = tmp / 10;
+		    } else
+			return 0;
+		}
+		if(!negativeNum)
+		    return output;
+		else
+		    return (-1) * output;
+        
+    }
+	
 	static int reverse2(int x) {
 		stack<int> reverseStack;
 		
