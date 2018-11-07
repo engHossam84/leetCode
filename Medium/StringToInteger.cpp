@@ -5,7 +5,77 @@
 
 using namespace std;
 
-int myAtoi(string str) {
+ int myAtoi(string str) {
+        bool negativeNum = false;
+        bool firstIntegralDigit = false;
+        bool sign = false;
+        int output = 0;
+        int digit = 0;
+        unordered_set<int> numberDigits;
+        for(int i = 0 ; i < str.length() ; i ++)
+        {
+            char strChar = str[i];
+            if(strChar == '-' || strChar == '+')
+            {
+                if(strChar == '+' && !sign && !firstIntegralDigit)
+                {
+                    sign = true;
+                    continue;
+                }
+                else if (strChar == '-' && !sign && !firstIntegralDigit)
+                {
+                    negativeNum = true;
+                    sign = true;
+                }
+                else
+                    break;
+                    
+            }
+            else if(strChar == ' ' )
+            {
+                if(firstIntegralDigit || sign)
+                    break;
+                else
+                    continue;
+            }
+            else if(!isdigit(str[i]) && !firstIntegralDigit)
+            {
+                return 0;
+            }
+            else if(!isdigit(str[i]) && firstIntegralDigit)
+            {
+                break;;
+            }
+            else if(isdigit(str[i]))
+            {
+                firstIntegralDigit = true;
+                digit =  str[i]- '0';
+                if(output  <= (INT_MAX - digit) / 10)
+                {
+                    output *= 10;
+                    
+                    output += digit;
+                }
+                else
+                {
+                    if(negativeNum)
+                        return INT_MIN;
+                    else
+                        return INT_MAX ;
+                }
+               
+            }
+        }
+        
+        
+        if(negativeNum)
+            return (-1)  * output;
+        else
+            return output;
+        
+    }
+
+int myAtoi2(string str) {
 	//remove_if(str.begin(), str.end(), isspace);
 	enum SIGN { POSITIVE, NEGATIVE, NOSIGN };
 	SIGN numberSign = NOSIGN;
